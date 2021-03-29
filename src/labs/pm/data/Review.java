@@ -17,11 +17,13 @@
  */
 package labs.pm.data;
 
+import java.io.Serializable;
+
 /**
  *
  * @author a.da.paz.silva
  */
-public class Review implements Comparable<Review>{
+public class Review implements Comparable<Review>, Serializable{
     private final Rating rating;
     private final String comments;
 

@@ -22,6 +22,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -63,9 +64,9 @@ public class ProductManager {
     
     private Path currentPath = Paths.get("./src/labs").toAbsolutePath();
     
-    private Path reportsFolder = currentPath.resolve(Path.of("reports"));
-    private Path dataFolder = Path.of("data");
-    private Path tempFolder = Path.of("temp");
+    private Path reportsFolder = currentPath.resolve(Path.of(config.getString("reports.folder")));
+    private Path dataFolder = currentPath.resolve(Path.of(config.getString("data.folder")));
+    private Path tempFolder = currentPath.resolve(Path.of(config.getString("temp.folder")));
     
     private static final Logger logger = Logger.getLogger(ProductManager.class.getName());
     private static Map<String, ResourceFormatter> formatters
@@ -82,6 +83,7 @@ public class ProductManager {
 
     public ProductManager(String localeTag) {
         changeLocale(localeTag);
+        loadAllData();
     }
 
     public void changeLocale(String localeTag) {
@@ -146,10 +148,20 @@ public class ProductManager {
             logger.log(Level.INFO, "Error printing product report" + ex.getMessage(), ex);
         }
     }
+    
+    public void printAllProducts(){
+        this.products.keySet().forEach(p -> {
+            try {
+                printProductReport(p);
+            } catch (IOException ex) {
+                logger.log(Level.SEVERE, "Error printing all products " + ex.getMessage(), ex);
+            }
+        });
+    }
 
     public void printProductReport(Product product) throws IOException {
         List<Review> reviews = this.products.get(product);
-         Path productFile = reportsFolder.resolve("report.txt");
+         Path productFile = reportsFolder.resolve("report" + product.getId() + ".txt");
          
          Files.deleteIfExists(productFile);
          
@@ -181,7 +193,7 @@ public class ProductManager {
         System.out.println(txt);
     }
 
-    public Review parseReview(String text) {
+    private Review parseReview(String text) {
         Review review = null;
         try {
             Object[] values = reviewFormat.parse(text);
@@ -195,7 +207,7 @@ public class ProductManager {
         return review;
     }
 
-    public Product parseProduct(String text) {
+    private Product parseProduct(String text) {
         Product product = null;
         try {
             Object[] values = productFormat.parse(text);
@@ -207,11 +219,11 @@ public class ProductManager {
 
             switch ((String) values[0]) {
                 case "D":
-                    createProduct(id, name, price, rating);
+                    product = new Drink(id, name, price, rating);
                     break;
                 case "F":
                     LocalDate bestBefore = LocalDate.parse((String) values[5]);
-                    createProduct(id, name, price, rating, bestBefore);
+                    product = new Food(id, name, price, rating, bestBefore);
                     break;
             }
 
@@ -222,11 +234,47 @@ public class ProductManager {
         return product;
     }
     
-    public List<Review>  loadReviews(){
+    private void loadAllData(){
+        try {
+            products = Files.list(dataFolder)
+                    .filter(file -> file.getFileName().toString().startsWith("product"))
+                    .map(file -> loadProducts(file))
+                    .collect(Collectors.toMap(product -> product, product -> loadReviews(product)));
+        } catch (IOException ex) {
+            logger.log(Level.SEVERE, "Error loading data " + ex.getMessage(), ex);
+        }
+    }
+    
+    public Product  loadProducts(Path file) {
+        Product product = null;        
+        try {
+            product = parseProduct(Files.lines(dataFolder.resolve(file), 
+                    Charset.forName("UTF-8")).findFirst().orElseThrow());
+        } catch (Exception ex) {
+            logger.log(Level.WARNING, "Error loading product " + ex.getMessage());
+        }
         
-//        Path file = dataFolder.resolve(dataFolder)
-        
+        return product;
+    }
+    
+    public List<Review>  loadReviews(Product product) {
         List<Review> reviews = null;
+        
+        Path file = dataFolder.resolve(MessageFormat.format(
+                                config.getString("reviews.data.file"), product.getId()));
+        
+        if(Files.notExists(file)){
+            reviews = new ArrayList<>();
+        }else{
+            try {
+                Files.lines(file, Charset.forName("UTF-8"))
+                        .map(text -> parseReview(text))
+                        .filter(review -> review != null)
+                        .collect(Collectors.toList());
+            } catch (IOException ex) {
+                logger.log(Level.WARNING, "Error loading reviews " + ex.getMessage());
+            }
+        }
         
         return reviews;
     }

@@ -21,6 +21,7 @@ import java.util.Comparator;
 import java.util.function.Predicate;
 import labs.pm.data.Product;
 import labs.pm.data.ProductManager;
+import labs.pm.data.ProductManagerException;
 import labs.pm.data.Rating;
 
 /**
@@ -32,35 +33,24 @@ import labs.pm.data.Rating;
  */
 public class Shop {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ProductManagerException {
 
         ProductManager pm = new ProductManager("en-US");
         
-        pm.parseProduct("D,101,Tea,1.99,0,2019-09-19");
-//        pm.createProduct(101, "Tea", BigDecimal.valueOf(1.99), Rating.NOT_RATED);
-        pm.printProductReport(101);
-        pm.parseReview("101,0,Nice hot cup of tea");
-        pm.parseReview("101,4,Rather weak tea");
-        pm.parseReview("101,4,Fine tea");
-        pm.parseReview("101,5,Good tea");
-        pm.parseReview("101,3,Just add some tea");
-        
-        pm.printProductReport(101);
-        
-        
-//        pm.changeLocale("ru-RU");
-
-//        pm.createProduct(102, "Coffee", BigDecimal.valueOf(1.99), Rating.NOT_RATED);
-//        pm.printProductReport(102);
-//        pm.parseReview("102,3,Nice hot cup of tea");
-//        pm.parseReview("102,5,Just add some tea");
-//        pm.parseReview("102,5,Good tea");
+        pm.createProduct(105, "Tea", BigDecimal.valueOf(1.99), Rating.NOT_RATED);
+        pm.reviewProduct(105, Rating.FOUR_STAR, "Rather weak tea");
+        pm.reviewProduct(105, Rating.THREE_STAR, "Nice hot cup of tea");
+        pm.reviewProduct(105, Rating.FIVE_STAR, "Fine tea");
+        pm.reviewProduct(105, Rating.TWO_STAR, "Good tea");
+        pm.reviewProduct(105, Rating.FIVE_STAR, "Just add some tea");
+      
+//        pm.printProductReport(105);
+        pm.printAllProducts();
 //        Comparator<Product> ratingSorter = (o1, o2) -> o2.getRating().ordinal() - o1.getRating().ordinal();
 //        Comparator<Product> priceSorter = (o1, o2) -> o1.getPrice().compareTo(o2.getPrice());
-//        pm.printProducts(ratingSorter.thenComparing(priceSorter));
-//        Predicate<Product> filterCoffee = p -> p.getId() == 102;
-//        pm.printProducts(filterCoffee, priceSorter.thenComparing(ratingSorter));
+//        pm.printProducts(priceSorter.reversed());
 //        pm.getDiscounts().forEach((k, v) -> System.out.println(k + " - " + v));
+
     }
 
 }
