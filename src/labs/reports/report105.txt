@@ -1,6 +1,0 @@
-Tea, Price:$1.99, Rating: FOUR_STAR, Best Before: 29/03/2021
-Review: FOUR_STAR	Rather weak tea
-Review: THREE_STAR	Nice hot cup of tea
-Review: FIVE_STAR	Fine tea
-Review: TWO_STAR	Good tea
-Review: FIVE_STAR	Just add some tea

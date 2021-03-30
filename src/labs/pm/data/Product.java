@@ -16,6 +16,7 @@
  */
 package labs.pm.data;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import static java.math.RoundingMode.HALF_UP;
 import java.time.LocalDate;
@@ -27,7 +28,7 @@ import java.util.Objects;
  * @version 4.0
  * @author a.da.paz.silva
  */
-public abstract class Product implements Comparable<Product>, Cloneable, Rateable<Product>{
+public abstract class Product implements Comparable<Product>, Cloneable, Rateable<Product>, Serializable{
 
     private static final BigDecimal DISCOUNT_RATE = BigDecimal.valueOf(0.1);
 

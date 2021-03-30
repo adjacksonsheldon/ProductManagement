@@ -18,7 +18,6 @@ package labs.pm.app;
 
 import java.math.BigDecimal;
 import java.util.Comparator;
-import java.util.function.Predicate;
 import labs.pm.data.Product;
 import labs.pm.data.ProductManager;
 import labs.pm.data.ProductManagerException;
@@ -36,21 +35,25 @@ public class Shop {
     public static void main(String[] args) throws ProductManagerException {
 
         ProductManager pm = new ProductManager("en-US");
-        
+
+//        pm.printAllProducts();
+    }
+
+    private static void createAndReviewProduct(ProductManager pm) {
         pm.createProduct(105, "Tea", BigDecimal.valueOf(1.99), Rating.NOT_RATED);
         pm.reviewProduct(105, Rating.FOUR_STAR, "Rather weak tea");
         pm.reviewProduct(105, Rating.THREE_STAR, "Nice hot cup of tea");
         pm.reviewProduct(105, Rating.FIVE_STAR, "Fine tea");
         pm.reviewProduct(105, Rating.TWO_STAR, "Good tea");
         pm.reviewProduct(105, Rating.FIVE_STAR, "Just add some tea");
-      
-//        pm.printProductReport(105);
-        pm.printAllProducts();
-//        Comparator<Product> ratingSorter = (o1, o2) -> o2.getRating().ordinal() - o1.getRating().ordinal();
-//        Comparator<Product> priceSorter = (o1, o2) -> o1.getPrice().compareTo(o2.getPrice());
-//        pm.printProducts(priceSorter.reversed());
-//        pm.getDiscounts().forEach((k, v) -> System.out.println(k + " - " + v));
 
     }
-
+    
+    private static void printAllProducts(ProductManager pm) {
+        Comparator<Product> ratingSorter = (o1, o2) -> o2.getRating().ordinal() - o1.getRating().ordinal();
+        Comparator<Product> priceSorter = (o1, o2) -> o1.getPrice().compareTo(o2.getPrice());
+        pm.printProducts(priceSorter);
+//        pm.getDiscounts().forEach((k, v) -> System.out.println(k + " - " + v));
+    }
+    
 }
