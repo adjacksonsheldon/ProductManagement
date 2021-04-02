@@ -1,0 +1,8 @@
+Tea Second Option, Price:$5.99, Rating: THREE_STAR, Best Before: 02/04/2021
+Review: FOUR_STAR	 Muito bom
+Review: FIVE_STAR	 Perfeito
+Review: ONE_STAR	 Péssimo
+Review: TWO_STAR	 Ruim
+Review: THREE_STAR	 Mais ou menos
+Review: FIVE_STAR	 Perfeito
+Review: NOT_RATED	Yet another review

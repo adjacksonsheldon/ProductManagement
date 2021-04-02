@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package labs.pm.data;
+package labs.pm.demos;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -27,6 +27,9 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
+import labs.pm.data.Product;
+import labs.pm.data.ProductManager;
+import labs.pm.data.Rating;
 
 /**
  *
@@ -88,7 +91,7 @@ public class Order {
     public static void main(String[] args) {
         List<Product> menu = new ArrayList<Product>();
 
-        ProductManager pm = new ProductManager(Locale.UK);
+        ProductManager pm = ProductManager.getInstance();
 
         Product p1 = pm.createProduct(101, "Cake", BigDecimal.valueOf(2.99), Rating.NOT_RATED, LocalDate.now());
         Product p2 = pm.createProduct(102, "Coockie", BigDecimal.valueOf(2.99), Rating.NOT_RATED, LocalDate.now());

@@ -42,7 +42,7 @@ public class Teste {
 
         List<Product> menu = new ArrayList<Product>();
 
-        ProductManager pm = new ProductManager(Locale.UK);
+        ProductManager pm = ProductManager.getInstance();
 
         menu.add(pm.createProduct(101, "Cake", BigDecimal.valueOf(2.99), Rating.NOT_RATED, LocalDate.now()));
         menu.add(pm.createProduct(102, "Coockie", BigDecimal.valueOf(2.99), Rating.NOT_RATED, LocalDate.now()));

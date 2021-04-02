@@ -18,10 +18,22 @@ package labs.pm.app;
 
 import java.math.BigDecimal;
 import java.util.Comparator;
+import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.logging.Level;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import labs.pm.data.Product;
 import labs.pm.data.ProductManager;
 import labs.pm.data.ProductManagerException;
 import labs.pm.data.Rating;
+import java.util.logging.Logger;
 
 /**
  *
@@ -33,9 +45,54 @@ import labs.pm.data.Rating;
 public class Shop {
 
     public static void main(String[] args) throws ProductManagerException {
-        ProductManager pm = new ProductManager("en-US");
-        pm.loadReviews(pm.findProduct(101));
-        pm.printAllProducts();
+        ProductManager pm = ProductManager.getInstance();
+
+        AtomicInteger clientCount = new AtomicInteger(0);
+        Callable<String> client = () -> {
+            String clientId = "Client" + clientCount.incrementAndGet();
+            String threadName = Thread.currentThread().getName();
+            int productId = ThreadLocalRandom.current().nextInt(7) + 101;
+            String languageTag = ProductManager.getSupportedLocales()
+                    .stream()
+                    .skip(ThreadLocalRandom.current().nextInt(6))
+                    .findFirst()
+                    .get();
+            StringBuilder log = new StringBuilder();
+            log.append(clientId + " " + threadName + "\n-\tstart of log\t-\n");
+            log.append(pm.getDiscounts(languageTag)
+                    .entrySet()
+                    .stream()
+                    .map(entry -> entry.getKey() + entry.getValue())
+                    .collect(Collectors.joining("\n")));            
+            Product product = pm.reviewProduct(productId, Rating.NOT_RATED, "Yet another review");            
+            log.append((product != null) 
+                    ? "\nProduct " + productId + " reviewed\n" 
+                    : "\nProduct " + productId + " not reviewed\n");
+            pm.printProductReport(productId, languageTag, clientId);
+            log.append(clientId + " generated report for " + productId + " product");
+            log.append("\n-\tend of log\t-\n");
+            return log.toString();
+        };
+        
+        List<Callable<String>> clients = Stream.generate(()->client)
+                                               .limit(5)
+                                               .collect(Collectors.toList());
+        
+        ExecutorService executorService = Executors.newFixedThreadPool(3);
+        try {
+            List<Future<String>> result = executorService.invokeAll(clients);            
+            result.stream().forEach(f -> {
+                try {
+                    System.out.println(f.get());
+                } catch (InterruptedException | ExecutionException ex) {
+                    Logger.getLogger(Shop.class.getName()).log(Level.SEVERE, "Error retrieving client log", ex);
+                }
+            });            
+            executorService.shutdown();
+        } catch (InterruptedException ex) {
+            Logger.getLogger(Shop.class.getName()).log(Level.SEVERE, "Error invoke clients", ex);
+        }
+
     }
 
     private static void createAndReviewProduct(ProductManager pm) {
@@ -47,12 +104,12 @@ public class Shop {
         pm.reviewProduct(105, Rating.FIVE_STAR, "Just add some tea");
 
     }
-    
+
     private static void printAllProducts(ProductManager pm) {
         Comparator<Product> ratingSorter = (o1, o2) -> o2.getRating().ordinal() - o1.getRating().ordinal();
         Comparator<Product> priceSorter = (o1, o2) -> o1.getPrice().compareTo(o2.getPrice());
-        pm.printProducts(priceSorter);
-//        pm.getDiscounts().forEach((k, v) -> System.out.println(k + " - " + v));
+        pm.printProducts(priceSorter, "en-US");
+        pm.getDiscounts("en-US").forEach((k, v) -> System.out.println(k + " - " + v));
     }
-    
+
 }

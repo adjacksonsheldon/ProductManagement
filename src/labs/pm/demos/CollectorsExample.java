@@ -33,7 +33,7 @@ import labs.pm.data.Rating;
  */
 public class CollectorsExample {
     public static void main(String[] args) {
-        ProductManager pm = new ProductManager(Locale.UK);
+        ProductManager pm = ProductManager.getInstance();
         
         Product p1 = pm.createProduct(101, "Cake", BigDecimal.valueOf(2.99), Rating.THREE_STAR, LocalDate.now());
         Product p2 = pm.createProduct(102, "Coockie", BigDecimal.valueOf(2.99), Rating.THREE_STAR, LocalDate.now());
