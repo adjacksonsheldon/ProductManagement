@@ -309,7 +309,7 @@ public class ProductManager {
             reviews = new ArrayList<>();
         } else {
             try {
-                Files.lines(file, Charset.forName("UTF-8"))
+                reviews = Files.lines(file, Charset.forName("UTF-8"))
                         .map(text -> parseReview(text))
                         .filter(review -> review != null)
                         .collect(Collectors.toList());

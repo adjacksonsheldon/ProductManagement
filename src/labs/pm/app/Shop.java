@@ -33,10 +33,9 @@ import labs.pm.data.Rating;
 public class Shop {
 
     public static void main(String[] args) throws ProductManagerException {
-
         ProductManager pm = new ProductManager("en-US");
-
-//        pm.printAllProducts();
+        pm.loadReviews(pm.findProduct(101));
+        pm.printAllProducts();
     }
 
     private static void createAndReviewProduct(ProductManager pm) {
