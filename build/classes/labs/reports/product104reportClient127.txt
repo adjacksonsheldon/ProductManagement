@@ -1,0 +1,17 @@
+Tea, Price:1,99 ₽, Rating: NOT_RATED, Best Before: 04/04/2021
+Review: NOT_RATED	Yet another review
+Review: NOT_RATED	Yet another review
+Review: NOT_RATED	Yet another review
+Review: NOT_RATED	Yet another review
+Review: NOT_RATED	Yet another review
+Review: NOT_RATED	Yet another review
+Review: NOT_RATED	Yet another review
+Review: NOT_RATED	Yet another review
+Review: NOT_RATED	Yet another review
+Review: NOT_RATED	Yet another review
+Review: NOT_RATED	Yet another review
+Review: NOT_RATED	Yet another review
+Review: NOT_RATED	Yet another review
+Review: NOT_RATED	Yet another review
+Review: NOT_RATED	Yet another review
+Review: NOT_RATED	Yet another review

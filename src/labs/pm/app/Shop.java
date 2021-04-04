@@ -75,10 +75,10 @@ public class Shop {
         };
         
         List<Callable<String>> clients = Stream.generate(()->client)
-                                               .limit(5)
+                                               .limit(200)
                                                .collect(Collectors.toList());
         
-        ExecutorService executorService = Executors.newFixedThreadPool(3);
+        ExecutorService executorService = Executors.newFixedThreadPool(5);
         try {
             List<Future<String>> result = executorService.invokeAll(clients);            
             result.stream().forEach(f -> {
