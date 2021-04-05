@@ -62,7 +62,7 @@ import labs.pm.service.ProductManagerException;
 public class ProductFileManager implements ProductManager{
 
     private Map<Product, List<Review>> products = new HashMap<Product, List<Review>>();
-    private final ResourceBundle config = ResourceBundle.getBundle("labs.pm.data.config");
+    private final ResourceBundle config = ResourceBundle.getBundle("labs.file.service.config");
     private final MessageFormat reviewFormat = new MessageFormat(config.getString("review.data.format"));
     private final MessageFormat productFormat = new MessageFormat(config.getString("product.data.format"));
     private final Path currentPath = Paths.get("./src/labs").toAbsolutePath();
@@ -81,7 +81,7 @@ public class ProductFileManager implements ProductManager{
     private final Lock writeLook = lock.writeLock();
     private final Lock readLook = lock.readLock();
 
-    private ProductFileManager() {
+    public ProductFileManager() {
         loadAllData();
     }
 
@@ -167,6 +167,7 @@ public class ProductFileManager implements ProductManager{
         }
     }
 
+    @Override
     public void printProductReport(int id, String localeTag, String client) {
         try {
             readLook.lock();

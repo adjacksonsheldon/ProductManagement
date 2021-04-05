@@ -1,4 +1,4 @@
-Tea Second Option, Preço:¥5.99, Classificação: THREE_STAR, Melhor Antes: 05/04/2021
+Tea Second Option, Preço:5,99 €, Classificação: THREE_STAR, Melhor Antes: 05/04/2021
 Revisão: FOUR_STAR	 Muito bom
 Revisão: FIVE_STAR	 Perfeito
 Revisão: ONE_STAR	 Péssimo

@@ -1,8 +1,8 @@
-Tea, Price:1,99 ₽, Rating: THREE_STAR, Best Before: 05/04/2021
-Review: FOUR_STAR	 Muito bom
-Review: FIVE_STAR	 Perfeito
-Review: ONE_STAR	 Péssimo
-Review: TWO_STAR	 Ruim
-Review: THREE_STAR	 Mais ou menos
-Review: FIVE_STAR	 Perfeito
-Review: NOT_RATED	Yet another review
+Tea, Preço:R$ 1,99, Classificação: THREE_STAR, Melhor Antes: 05/04/2021
+Revisão: FOUR_STAR	 Muito bom
+Revisão: FIVE_STAR	 Perfeito
+Revisão: ONE_STAR	 Péssimo
+Revisão: TWO_STAR	 Ruim
+Revisão: THREE_STAR	 Mais ou menos
+Revisão: FIVE_STAR	 Perfeito
+Revisão: NOT_RATED	Yet another review

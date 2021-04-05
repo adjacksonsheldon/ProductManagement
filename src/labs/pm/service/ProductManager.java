@@ -18,6 +18,7 @@ package labs.pm.service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
@@ -36,7 +37,9 @@ public interface ProductManager {
     Product findProduct(int id) throws ProductManagerException;
     List<Product> findProducts(Predicate<Product> filter) throws ProductManagerException;
     List<Review> findReviews(int id) throws ProductManagerException;
-    Map<String, String> getDiscounts(String localeTag);
+    Map<String, String> getDiscounts(String localeTag);    
+    void printProductReport(int id, String localeTag, String client); //Meu
+    public void printProducts(Comparator<Product> comparator, String localeTag);
     
     
 }
