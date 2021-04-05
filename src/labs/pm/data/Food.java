@@ -27,7 +27,7 @@ public class Food extends Product {
 
     private final LocalDate bestBefore;
 
-    Food(int id, String name, BigDecimal price, Rating rating, LocalDate bestBefore) {
+    public Food(int id, String name, BigDecimal price, Rating rating, LocalDate bestBefore) {
         super(id, name, price, rating);
         this.bestBefore = bestBefore;
     }
